@@ -1,10 +1,21 @@
 pipeline {
-    agent any
+    agent {
+      docker{
+        image 'node18:18-alpine'
+      }
+    }
 
     stages {
-        stage('Hello') {
+        stage('Build') {
             steps {
-                echo 'Hello World'
+                sh '''
+                  ls -la
+                  npm --version
+                  node --version
+                  npm ci
+                  npm run build
+                  ls -al
+                '''
             }
         }
     }
